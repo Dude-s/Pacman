@@ -61,7 +61,7 @@ void juego::dibujar_pantalla()
 	
 	ventana1->draw(smapa);
 	
-	for (auto& colision : colisiones)
+	for (auto& colision : colisiones )
         {
             ventana1->draw(colision);
         }
@@ -102,17 +102,66 @@ void juego::gameLoop(){
 
 void juego::llenar_cords(){
 
-	tamano={{660,16},{15,730},{660,11},{11,730},{131,252},{133,252},{38,110},{60,36},{60,36}};
+	tamano={{660,16},{15,730},{660,11},{11,730},{131,252},{133,252},{38,110},{60,36},{60,36},
+		{108, 60},{83, 60},{83, 36},{108, 58},{83, 60},{83, 36},{34, 182},{34, 180},{180, 36},
+		{34, 110},{34, 110},{180, 34},{108, 35},{83, 35},{108, 35},{83, 35},{180, 34},{228, 35},
+		{228, 35},{70, 34},{70, 34},{34, 70},{34, 70},{35, 107},{35, 107},{34, 107},{34, 107}};
 	
-	cords={{105,130},{105,130},{105,850},{753,130},{635,348},{105,348},{417,130},{105,708},{706,708}};
+	cords={{105,130},{105,130},{105,850},{753,130},{635,348},{105,348},{417,130},{105,708},{706,708},
+	       {490, 179},{635, 180},{635, 275},{275, 180},{155, 180},{155, 275},{563, 275},{275, 275},{347, 275},
+	       {563,490},{275,490},{347, 565},{490, 637},{635, 637},{275, 637},{155, 637},{347, 709},{490, 780},
+	       {155, 780},{490, 349},{312, 349},{420, 312},{420, 600},{635, 637},{203, 637},{563,708},{275,708}};
 
 
 }
 
-void juego::crear_colisiones(){
 
+/*void juego::detectar_colision(){
+
+
+	// Detectar colisiones entre el jugador y las colisiones
+	for (auto& colision : colisiones)
+	{
+	    // Crear un rectángulo de colisión para la colisión actual
+	    sf::FloatRect rectColision(colision.getPosition(), colision.getSize());
+	
+	    // Crear un rectángulo de colisión para el jugador
+	    sf::FloatRect rectJugador(jugador.getPosition(), jugador.getSize());
+		
+	    // Detectar si ha ocurrido una colisión entre los dos rectángulos
+	    if (rectJugador.intersects(rectColision))
+	    {
+	        // Si ha ocurrido una colisión, ajustar la posición del jugador para que esté justo al lado de la colisión
+	        if (jugador.getPosition().x < colision.getPosition().x)
+	        {
+	            // El jugador estaba a la izquierda de la colisión, así que lo movemos a la izquierda de la colisión
+	            jugador.setPosition(colision.getPosition().x - jugador.getSize().x, jugador.getPosition().y);
+	        }
+	        else
+	        {
+	            // El jugador estaba a la derecha de la colisión, así que lo movemos a la derecha de la colisión
+	            jugador.setPosition(colision.getPosition().x + colision.getSize().x, jugador.getPosition().y);
+	        }
+	
+	        if (jugador.getPosition().y < colision.getPosition().y)
+	        {
+	            // El jugador estaba arriba de la colisión, así que lo movemos arriba de la colisión
+	            jugador.setPosition(jugador.getPosition().x, colision.getPosition().y - jugador.getSize().y);
+	        }
+	        else
+	        {
+	            // El jugador estaba abajo de la colisión, así que lo movemos abajo de la colisión
+	            jugador.setPosition(jugador.getPosition().x, colision.getPosition().y + colision.getSize().y);
+	        }
+	    }
+	}
+}*/
+
+void juego::crear_colisiones(){
+	
+	int col;
 	// Crear 30 colisiones aleatorias
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i <= 8; i++)
     	{
         	// Crear un rectángulo con una posición y tamaño aleatorios
         	RectangleShape colision(Vector2f(tamano[i].first,tamano[i].second));
@@ -123,7 +172,24 @@ void juego::crear_colisiones(){
 
         	// Agregar el rectángulo al vector de colisiones
         	colisiones.push_back(colision);
+        	
+        	col=i;
     	}
+    	
+    	cout<<col<<endl;
+    	
+    	for(col;col<=36;col++){
+    		RectangleShape obs(Vector2f(tamano[col].first,tamano[col].second));
+        	obs.setPosition(cords[col].first, cords[col].second);
+        	obs.setFillColor(Color::Transparent);
+        	obs.setOutlineThickness(1);
+    		obs.setOutlineColor(Color::Green);
+
+        	// Agregar el rectángulo al vector de colisiones
+        	colisiones.push_back(obs);
+    	
+    	}	
+    	cout<<col<<endl;
 
 }
 
